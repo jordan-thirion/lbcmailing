@@ -29,13 +29,11 @@ app.post('/send-email', async (req, res) => {
   };
 
   try{
-    await transporter.sendMail(mailOptions, (err, info) => {
-      console.log(`Email envoyé de ${email} via ${process.env.MAIL_USER}`);
-      console.log('Nodemailer info:', info);
-      res.status(200).json({ success: true });
-    });
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email envoyé de', email, 'via', process.env.MAIL_USER);
+    console.log('Nodemailer info :', info);
+    res.status(200).json({ success: true, info });
   } catch (error) {
-    console.log("bug");
     console.error(error);
     res.status(500).json({ success: false });
   }
