@@ -7,9 +7,6 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-console.log("Démarrage du serveur...");
-console.log("MAIL_USER =", process.env.MAIL_USER ? "OK" : "NON DEFINI");
-
 app.post('/send-email', async (req, res) => {
   const { name, object, email, message } = req.body;
 
@@ -30,7 +27,8 @@ app.post('/send-email', async (req, res) => {
 
   try{
     await transporter.sendMail(mailOptions, (err, info) => {
-    res.status(200).json({ success: true });
+      console.log(`Email envoyé de ${email} via ${process.env.MAIL_USER}`);
+      res.status(200).json({ success: true });
     });
   } catch (error) {
     console.error(error);
