@@ -29,7 +29,7 @@ app.post('/send-email', async (req, res) => {
   };
 
   try{
-    transporter.sendMail(mailOptions, (err, info) => {
+    await transporter.sendMail(mailOptions, (err, info) => {
     res.status(200).json({ success: true });
     });
   } catch (error) {
