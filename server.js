@@ -7,7 +7,9 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-app.post('/send-email', async (req, res) => {
+console.log("Démarrage du serveur...");
+
+app.post('/send-email', (req, res) => {
   const { name, object, email, message } = req.body;
 
   const transporter = nodemailer.createTransport({
@@ -26,11 +28,12 @@ app.post('/send-email', async (req, res) => {
   };
 
   try{
-    await transporter.sendMail(mailOptions, (err, info) => {
+    transporter.sendMail(mailOptions, (err, info) => {
       console.log(`Email envoyé de ${email} via ${process.env.MAIL_USER}`);
       res.status(200).json({ success: true });
     });
   } catch (error) {
+    console.log("bug");
     console.error(error);
     res.status(500).json({ success: false });
   }
