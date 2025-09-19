@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 
 console.log("Démarrage du serveur...");
 
-app.post('/send-email', (req, res) => {
+app.post('/send-email', async (req, res) => {
   const { name, object, email, message } = req.body;
 
   const transporter = nodemailer.createTransport({
@@ -29,7 +29,7 @@ app.post('/send-email', (req, res) => {
   };
 
   try{
-    transporter.sendMail(mailOptions, (err, info) => {
+    await transporter.sendMail(mailOptions, (err, info) => {
       console.log(`Email envoyé de ${email} via ${process.env.MAIL_USER}`);
       console.log('Nodemailer info:', info);
       res.status(200).json({ success: true });
