@@ -7,7 +7,10 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-app.post('/send-email', (req, res) => {
+console.log("Démarrage du serveur...");
+console.log("MAIL_USER =", process.env.MAIL_USER ? "OK" : "NON DEFINI");
+
+app.post('/send-email', async (req, res) => {
   const { name, object, email, message } = req.body;
 
   const transporter = nodemailer.createTransport({
