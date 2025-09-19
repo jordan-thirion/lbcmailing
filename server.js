@@ -12,6 +12,7 @@ console.log("Démarrage du serveur...");
 app.post('/send-email', async (req, res) => {
   const { name, object, email, message } = req.body;
 
+  try{
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -28,7 +29,7 @@ app.post('/send-email', async (req, res) => {
     text: message
   };
 
-  try{
+  
     const info = await transporter.sendMail(mailOptions);
     console.log('Email envoyé de', email, 'via', process.env.MAIL_USER);
     console.log('Nodemailer info :', info);
