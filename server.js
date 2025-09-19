@@ -21,7 +21,8 @@ app.post('/send-email', (req, res) => {
   });
 
   const mailOptions = {
-    from: email,
+    from: process.env.MAIL_USER,
+    replyTo: email,
     to: process.env.MAIL_USER,
     subject: `Contact de ${name} pour ${object}`,
     text: message
@@ -30,6 +31,7 @@ app.post('/send-email', (req, res) => {
   try{
     transporter.sendMail(mailOptions, (err, info) => {
       console.log(`Email envoyé de ${email} via ${process.env.MAIL_USER}`);
+      console.log('Nodemailer info:', info);
       res.status(200).json({ success: true });
     });
   } catch (error) {
@@ -42,3 +44,11 @@ app.post('/send-email', (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Serveur en ligne sur le port ${PORT}`));
+
+/* const express = require('express');
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.get('/', (req, res) => res.send('Hello world'));
+
+app.listen(PORT, () => console.log(`Serveur sur port ${PORT}`)); */
